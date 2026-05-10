@@ -5,7 +5,8 @@ return {
 		"nvim-telescope/telescope.nvim",
 	},
 	config = function()
-{{- if .languages.python }}
+{{- $languages := default (dict) (index . "languages") }}
+{{- if default false (index $languages "python") }}
 		-- pyright
 		vim.lsp.config["pyright"] = {
 			cmd = { "pyright-langserver", "--stdio" },
@@ -24,7 +25,7 @@ return {
 		vim.lsp.enable("pyright")
 {{- end }}
 
-{{- if or .languages.c .languages.cpp }}
+{{- if or (default false (index $languages "c")) (default false (index $languages "cpp")) }}
 		-- clangd
 		vim.lsp.config["clangd"] = {
 			cmd = { "clangd", "--background-index" },
@@ -34,7 +35,7 @@ return {
 		vim.lsp.enable("clangd")
 {{- end }}
 
-{{- if .languages.lua }}
+{{- if default false (index $languages "lua") }}
 		-- lua_ls
 		vim.lsp.config["lua_ls"] = {
 			cmd = { "lua-language-server" },
@@ -51,7 +52,7 @@ return {
 		vim.lsp.enable("lua_ls")
 {{- end }}
 
-{{- if .languages.go }}
+{{- if default false (index $languages "go") }}
 		-- gopls
 		vim.lsp.config["gopls"] = {
 			cmd = { "gopls" },
@@ -71,7 +72,7 @@ return {
 		vim.lsp.enable("gopls")
 {{- end }}
 
-{{- if .languages.rust }}
+{{- if default false (index $languages "rust") }}
 		-- rust_analyzer
 		vim.lsp.config["rust_analyzer"] = {
 			cmd = { "rust-analyzer" },
@@ -81,7 +82,7 @@ return {
 		vim.lsp.enable("rust_analyzer")
 {{- end }}
 
-{{- if or .languages.javascript .languages.typescript }}
+{{- if or (default false (index $languages "javascript")) (default false (index $languages "typescript")) }}
 		-- ts_ls (JavaScript/TypeScript)
 		vim.lsp.config["ts_ls"] = {
 			cmd = { "typescript-language-server", "--stdio" },

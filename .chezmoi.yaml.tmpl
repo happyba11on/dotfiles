@@ -1,0 +1,28 @@
+{{- $configDir := joinPath .chezmoi.homeDir ".config/chezmoi" -}}
+{{- $keyPath := joinPath $configDir "key.txt" -}}
+{{- $languages := default (dict) (index . "languages") -}}
+{{- $age := default (dict) (index . "age") -}}
+{{- $hosttype := default .chezmoi.os (index . "hosttype") -}}
+{{- if contains "icrosoft" (lower .chezmoi.kernel.osrelease) -}}
+{{- $hosttype = "wsl" -}}
+{{- end -}}
+data:
+  hosttype: "{{ $hosttype }}"
+  osid: "{{ default (default .chezmoi.os .chezmoi.osRelease.id) (index . "osid") }}"
+  proxy_ip: "{{ default "127.0.0.1" (index . "proxy_ip") }}"
+  email: "{{ default "withatenth@gmail.com" (index . "email") }}"
+  languages:
+    c: {{ default false (index $languages "c") }}
+    cpp: {{ default false (index $languages "cpp") }}
+    python: {{ default false (index $languages "python") }}
+    rust: {{ default false (index $languages "rust") }}
+    go: {{ default false (index $languages "go") }}
+    lua: {{ default false (index $languages "lua") }}
+    javascript: {{ default false (index $languages "javascript") }}
+    typescript: {{ default false (index $languages "typescript") }}
+
+encryption: "{{ default "age" (index . "encryption") }}"
+
+age:
+  identity: "{{ default $keyPath (index $age "identity") }}"
+  recipient: "{{ default "age1rj3fn2t7az2yrhpgfwrkvh80kgkcglkl9dv9y8au64x7rngjectq0danh8" (index $age "recipient") }}"

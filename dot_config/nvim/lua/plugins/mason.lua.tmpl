@@ -1,4 +1,5 @@
 # ~/.local/share/chezmoi/dot_config/nvim/lua/plugins/mason.lua.tmpl
+{{- $languages := default (dict) (index . "languages") }}
 return {
     -- Mason: Package manager for LSP servers, formatters, linters, etc.
     {
@@ -26,19 +27,19 @@ return {
             require("mason-lspconfig").setup({
                 -- 自动安装的 LSP 服务器
                 ensure_installed = {
-{{- if .languages.python }}
+{{- if default false (index $languages "python") }}
                     "pyright",        -- Python
 {{- end }}
-{{- if or .languages.c .languages.cpp }}
+{{- if or (default false (index $languages "c")) (default false (index $languages "cpp")) }}
                     "clangd",         -- C/C++
 {{- end }}
-{{- if .languages.lua }}
+{{- if default false (index $languages "lua") }}
                     "lua_ls",         -- Lua
 {{- end }}
-{{- if .languages.go }}
+{{- if default false (index $languages "go") }}
                     "gopls",          -- Go
 {{- end }}
-{{- if .languages.rust }}
+{{- if default false (index $languages "rust") }}
                     "rust_analyzer",  -- Rust
 {{- end }}
                 },
@@ -57,29 +58,29 @@ return {
             require("mason-tool-installer").setup({
                 -- 自动安装的工具列表
                 ensure_installed = {
-{{- if .languages.python }}
+{{- if default false (index $languages "python") }}
                     -- Formatters for Python
                     "black",
                     "isort",
 {{- end }}
-{{- if .languages.lua }}
+{{- if default false (index $languages "lua") }}
                     -- Formatter for Lua
                     "stylua",
 {{- end }}
-{{- if or .languages.javascript .languages.typescript }}
+{{- if or (default false (index $languages "javascript")) (default false (index $languages "typescript")) }}
                     -- Formatter for JSON/JSONC/JS/TS
                     "prettier",
 {{- end }}
-{{- if or .languages.c .languages.cpp }}
+{{- if or (default false (index $languages "c")) (default false (index $languages "cpp")) }}
                     -- Formatter for C/C++
                     "clang-format",
 {{- end }}
-{{- if .languages.go }}
+{{- if default false (index $languages "go") }}
                     -- Formatters for Go
                     "goimports",
                     "gofumpt",
 {{- end }}
-{{- if .languages.rust }}
+{{- if default false (index $languages "rust") }}
                     -- Formatter for Rust
                     "rustfmt",
 {{- end }}
