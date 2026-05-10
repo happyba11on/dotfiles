@@ -32,3 +32,51 @@ chezmoi init --apply https://github.com/happyba11on/dotfiles.git
 ```
 
 If you need to adjust host-specific values after the first bootstrap, edit `~/.config/chezmoi/chezmoi.yaml` and re-run `chezmoi apply`.
+
+## Dockerfile
+
+Untested and may not work. For reference only.
+
+The repository also includes a root-level Dockerfile that builds a container with the baseline tools implied by these dotfiles:
+
+- `zsh` with `oh-my-zsh`
+- `neovim`
+- `tmux`
+- `chezmoi`
+- `git`, `ripgrep`, `fd`, `xclip`
+- `fastfetch`
+
+Encrypted chezmoi entries are excluded during image setup.
+
+Build with all language options disabled, which matches the default config:
+
+```sh
+docker build -t chezmoi-dotfiles .
+```
+
+Enable language-specific tooling with build args as needed:
+
+```sh
+docker build -t chezmoi-dotfiles \
+  --build-arg ENABLE_GO=true \
+  --build-arg ENABLE_PYTHON=true \
+  --build-arg ENABLE_TYPESCRIPT=true \
+  .
+```
+
+Supported build args:
+
+- `ENABLE_C`
+- `ENABLE_CPP`
+- `ENABLE_PYTHON`
+- `ENABLE_RUST`
+- `ENABLE_GO`
+- `ENABLE_LUA`
+- `ENABLE_JAVASCRIPT`
+- `ENABLE_TYPESCRIPT`
+
+Run the resulting container:
+
+```sh
+docker run --rm -it chezmoi-dotfiles
+```
