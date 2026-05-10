@@ -18,34 +18,40 @@ local languages = {
   "go",
 }
 
+local enabled_languages = {}
+for _, language in ipairs(languages) do
+  enabled_languages[language] = true
+end
+
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   build = ":TSUpdate",
   lazy = false,
   config = function()
-    local has_tree_sitter_cli = vim.fn.executable("tree-sitter") == 1
-    local configs = require("nvim-treesitter.configs")
+    local ok, treesitter = pcall(require, "nvim-treesitter")
+    if not ok then
+      vim.schedule(function()
+        vim.notify("Failed to load nvim-treesitter", vim.log.levels.ERROR)
+      end)
+      return
+    end
 
-    configs.setup({
-      ensure_installed = languages,
-      sync_install = false,
-      auto_install = has_tree_sitter_cli,
-      highlight = {
-        enable = true,
-      },
-      indent = {
-        enable = true,
-      },
+    treesitter.setup({
+      install_dir = vim.fn.stdpath("data") .. "/site",
     })
 
-    if not has_tree_sitter_cli then
-      vim.schedule(function()
-        vim.notify(
-          "nvim-treesitter on branch 'main' needs tree-sitter-cli to install missing parsers automatically",
-          vim.log.levels.WARN
-        )
-      end)
-    end
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(args)
+        local parser = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype) or vim.bo[args.buf].filetype
+        if enabled_languages[parser] then
+          pcall(vim.treesitter.start, args.buf, parser)
+        end
+      end,
+    })
+
+    pcall(function()
+      treesitter.install(languages)
+    end)
   end,
 }
