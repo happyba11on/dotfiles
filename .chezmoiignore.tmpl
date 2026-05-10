@@ -1,5 +1,13 @@
+{{- $chezmoiKey := joinPath .chezmoi.homeDir ".config/chezmoi/key.txt" -}}
+.config/nvim/.git/**
+.config/nvim/.DS_Store
+.config/nvim/**/*.log
+README.md
 {{- if ne .chezmoi.os "linux" }}
 .bashrc
 .zshrc
 {{- end }}
-
+{{- if not (stat $chezmoiKey) }}
+.config/zsh/secrets.zsh
+.ssh/config
+{{- end }}

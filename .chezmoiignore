@@ -1,4 +1,0 @@
-.config/nvim/.git/**
-.config/nvim/.DS_Store
-.config/nvim/**/*.log
-README.md
