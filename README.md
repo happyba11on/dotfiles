@@ -6,17 +6,21 @@ data:
   proxy_ip: "127.0.0.1"
   email: "email-address@qq.com"
   languages:
-    c: true
-    cpp: true
-    python: true
-    rust: true
+    c: false
+    cpp: false
+    python: false
+    rust: false
     go: false
-    lua: true
-    javascript: true
-    typescript: true
+    lua: false
+    javascript: false
+    typescript: false
 
 encryption:  "age"
 
 age:
   identity:  "~/.config/chezmoi/key.txt"
+```
+
+```
+chezmoi init --apply https://github.com/happyba11on/dotfiles.git
 ```
