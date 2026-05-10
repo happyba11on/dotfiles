@@ -1,0 +1,14 @@
+# ~/.bashrc
+
+case $- in
+    *i*) ;;
+    *) return ;;
+esac
+
+if [ -f "$HOME/.config/shell/rc_common.sh" ]; then
+    source "$HOME/.config/shell/rc_common.sh"
+fi
+
+if [ -f ~/.bashrc_local ]; then
+    source ~/.bashrc_local
+fi

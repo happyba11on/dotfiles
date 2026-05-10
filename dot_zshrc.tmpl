@@ -1,6 +1,3 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -103,63 +100,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias "rm"="trash"
-alias "vim"="nvim"
-export EDITOR="nvim"
-fastfetch
-
-(chezmoi update --no-tty &) > /dev/null 2>&1
-
-{{- $nvmDir := joinPath .chezmoi.homeDir ".nvm" -}}
-{{- if (stat $nvmDir) }}
-export NVM_DIR="{{ $nvmDir }}"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-{{- end }}
-
-export PROXY_IP="{{ or (index . "proxy_ip") "127.0.0.1" }}"
-
-{{- $goBin := joinPath .chezmoi.homeDir "go/bin" -}}
-{{- $gopls := joinPath $goBin "gopls" -}}
-{{- if (stat $gopls) }}
-export PATH=$PATH:{{ $goBin }}
-{{- end }}
-
-proxy_on() {
-    export http_proxy="http://$PROXY_IP:10808"
-    export https_proxy="http://$PROXY_IP:10808"
-    export all_proxy="socks5://$PROXY_IP:10808"
-    export no_proxy="localhost,$PROXY_IP,::1"
-    echo "✓ 代理已开启"
-}
-
-# 快速关闭代理
-proxy_off() {
-    unset http_proxy
-    unset https_proxy
-    unset all_proxy
-    unset no_proxy
-    echo "✓ 代理已关闭"
-}
-
-# 查看代理状态
-proxy_status() {
-    echo "HTTP Proxy: $http_proxy"
-    echo "HTTPS Proxy: $https_proxy"
-    echo "All Proxy: $all_proxy"
-}
-export PATH=$PATH:$HOME/go/bin
-
-# alias claude="proxy_on&&claude"
-# alias codex="proxy_on&&codex"
-
-# 加载敏感配置（如果存在）
-if [ -f "$HOME/.config/zsh/secrets.zsh" ]; then
-    source "$HOME/.config/zsh/secrets.zsh"
+if [ -f "$HOME/.config/shell/rc_common.sh" ]; then
+    source "$HOME/.config/shell/rc_common.sh"
 fi
 
 
 # ~/.zshrc.local
 [[ -f ~/.zshrc_local ]] && source ~/.zshrc_local
-
-alias icat='kitty +kitten icat'

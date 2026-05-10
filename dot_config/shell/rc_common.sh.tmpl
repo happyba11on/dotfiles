@@ -1,0 +1,59 @@
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
+
+alias "rm"="trash"
+alias "vim"="nvim"
+alias icat='kitty +kitten icat'
+
+export EDITOR="nvim"
+
+case $- in
+    *i*)
+        fastfetch
+        (chezmoi update --no-tty &) > /dev/null 2>&1
+        ;;
+esac
+
+{{- $nvmDir := joinPath .chezmoi.homeDir ".nvm" -}}
+{{- if (stat $nvmDir) }}
+export NVM_DIR="{{ $nvmDir }}"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+{{- end }}
+
+export PROXY_IP="{{ or (index . "proxy_ip") "127.0.0.1" }}"
+
+{{- $goBin := joinPath .chezmoi.homeDir "go/bin" -}}
+{{- $gopls := joinPath $goBin "gopls" -}}
+{{- if (stat $gopls) }}
+export PATH="$PATH:{{ $goBin }}"
+{{- end }}
+export PATH="$PATH:$HOME/go/bin"
+
+proxy_on() {
+    export http_proxy="http://$PROXY_IP:10808"
+    export https_proxy="http://$PROXY_IP:10808"
+    export all_proxy="socks5://$PROXY_IP:10808"
+    export no_proxy="localhost,$PROXY_IP,::1"
+    echo "✓ 代理已开启"
+}
+
+proxy_off() {
+    unset http_proxy
+    unset https_proxy
+    unset all_proxy
+    unset no_proxy
+    echo "✓ 代理已关闭"
+}
+
+proxy_status() {
+    echo "HTTP Proxy: $http_proxy"
+    echo "HTTPS Proxy: $https_proxy"
+    echo "All Proxy: $all_proxy"
+}
+
+# alias claude="proxy_on&&claude"
+# alias codex="proxy_on&&codex"
+
+if [ -f "$HOME/.config/shell/secrets.sh" ]; then
+    source "$HOME/.config/shell/secrets.sh"
+fi
