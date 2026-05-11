@@ -28,7 +28,11 @@ age:
 Bootstrap with automatic config generation:
 
 ```sh
-chezmoi init --apply https://github.com/happyba11on/dotfiles.git
+chezmoi init --apply --exclude encrypted https://github.com/happyba11on/dotfiles.git
+```
+Without chezmoi yet:
+```sh
+sh -c "$(curl -fsLS https://get.chezmoi.io)" -- init --apply --exclude encrypted happyba11on
 ```
 
 If you need to adjust host-specific values after the first bootstrap, edit `~/.config/chezmoi/chezmoi.yaml` and re-run `chezmoi apply`.
