@@ -1,0 +1,113 @@
+{
+    "layer": "top",
+    "position": "top",
+    "spacing": 6,
+    "margin-top": 10,
+    "margin-left": 12,
+    "margin-right": 12,
+    "modules-left": ["niri/workspaces", "niri/mode", "idle_inhibitor"],
+    "modules-center": ["niri/window"],
+    "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "clock", "tray"],
+
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "󰮯",
+            "default": "󰊠"
+        }
+    },
+
+    "niri/mode": {
+        "format": "  {}"
+    },
+
+    "niri/window": {
+        "max-length": 60,
+        "separate-outputs": true
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰾪"
+        },
+        "tooltip-format-activated": "Idle inhibitor enabled",
+        "tooltip-format-deactivated": "Idle inhibitor disabled"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "  {usage}%",
+        "max-length": 10
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "󰍛  {}%"
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "󰂯  {volume}%",
+        "format-muted": "󰖁  muted",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰦧",
+            "car": "󰄋",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": "   {essid}",
+        "format-ethernet": "󰈀  Ethernet",
+        "format-linked": "󰌘  No IP",
+        "format-disconnected": "󰖪  Offline",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": "󰂄  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-alt": "{time}  {icon}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "󰥔  {:%H:%M}",
+        "format-alt": "  {:%a, %d %b %H:%M}",
+        "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#cba6f7'><b>{}</b></span>",
+                "days": "<span color='#cdd6f4'>{}</span>",
+                "weeks": "<span color='#89dceb'><b>W{}</b></span>",
+                "weekdays": "<span color='#b4befe'><b>{}</b></span>",
+                "today": "<span color='#fab387'><b>{}</b></span>"
+            }
+        }
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    }
+}

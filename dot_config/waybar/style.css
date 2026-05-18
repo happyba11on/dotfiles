@@ -1,0 +1,178 @@
+@import "mocha.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font";
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: alpha(@crust, 0.82);
+    color: @text;
+    border: 1px solid alpha(@surface2, 0.55);
+    border-radius: 18px;
+}
+
+tooltip {
+    background: @mantle;
+    color: @text;
+    border: 1px solid alpha(@surface2, 0.8);
+    border-radius: 12px;
+}
+
+tooltip label {
+    padding: 2px;
+}
+
+#workspaces,
+#mode,
+#idle_inhibitor,
+#window,
+#cpu,
+#memory,
+#pulseaudio,
+#network,
+#battery,
+#clock,
+#tray {
+    margin: 7px 0;
+    padding: 0 12px;
+    min-height: 32px;
+    background: alpha(@base, 0.88);
+    border: 1px solid alpha(@surface1, 0.9);
+    border-radius: 12px;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+#workspaces,
+#mode,
+#idle_inhibitor {
+    margin-left: 6px;
+}
+
+#tray,
+#clock {
+    margin-right: 6px;
+}
+
+#workspaces {
+    padding: 0 6px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 5px 3px;
+    min-width: 22px;
+    color: @overlay1;
+    background: transparent;
+    border-radius: 9px;
+    transition: background 160ms ease, color 160ms ease;
+}
+
+#workspaces button:hover {
+    background: alpha(@surface1, 0.8);
+    color: @text;
+    box-shadow: none;
+}
+
+#workspaces button.active {
+    background: linear-gradient(135deg, @blue, @mauve);
+    color: @crust;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @crust;
+}
+
+#mode {
+    color: @crust;
+    background: linear-gradient(135deg, @yellow, @peach);
+    border-color: alpha(@peach, 0.9);
+    font-weight: 700;
+}
+
+#idle_inhibitor {
+    color: @subtext1;
+}
+
+#idle_inhibitor.activated {
+    color: @crust;
+    background: linear-gradient(135deg, @green, @teal);
+    border-color: alpha(@green, 0.9);
+}
+
+#window {
+    padding: 0 18px;
+    color: @subtext1;
+}
+
+#window.empty {
+    color: @overlay0;
+}
+
+#cpu {
+    color: @sky;
+}
+
+#memory {
+    color: @sapphire;
+}
+
+#pulseaudio {
+    color: @lavender;
+}
+
+#pulseaudio.muted {
+    color: @overlay1;
+}
+
+#network {
+    color: @teal;
+}
+
+#network.disconnected,
+#network.disabled {
+    color: @overlay1;
+}
+
+#battery {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @peach;
+}
+
+#clock {
+    color: @text;
+    font-weight: 700;
+}
+
+#tray {
+    padding: 0 10px;
+}
+
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover,
+#network:hover,
+#battery:hover,
+#clock:hover,
+#tray:hover,
+#window:hover,
+#idle_inhibitor:hover {
+    background: alpha(@surface0, 0.95);
+    border-color: alpha(@lavender, 0.7);
+}
