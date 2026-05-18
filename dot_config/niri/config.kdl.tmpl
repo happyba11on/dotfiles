@@ -267,10 +267,15 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-at-startup "fcitx5"
 spawn-at-startup "waybar"
 // spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "mako"
 spawn-at-startup "wpaperd" "-d"
+
+environment {
+    DISPLAY ":1"
+}
 
 // Enable XWayland support for X11 applications (Steam, TeamSpeak, etc.)
 spawn-at-startup "xwayland-satellite"
