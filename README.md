@@ -8,6 +8,8 @@ data:
   osid: "debian"
   proxy_ip: "127.0.0.1"
   email: "withatenth@gmail.com"
+  niri:
+    outputs: []
   languages:
     c: false
     cpp: false
@@ -36,6 +38,40 @@ sh -c "$(curl -fsLS https://get.chezmoi.io)" -- init --apply --exclude encrypted
 ```
 
 If you need to adjust host-specific values after the first bootstrap, edit `~/.config/chezmoi/chezmoi.yaml` and re-run `chezmoi apply`.
+
+## Host-specific niri outputs
+
+`niri` monitor names, modes, scales, and positions are machine-specific. This repo now treats
+them as host data so one shared config can work across different laptops, docks, and displays.
+
+Leave the default empty list to let `niri` auto-detect outputs:
+
+```yaml
+data:
+  niri:
+    outputs: []
+```
+
+Set explicit outputs only on machines that need fixed layout/scaling:
+
+```yaml
+data:
+  niri:
+    outputs:
+      - name: "eDP-1"
+        mode: "1920x1080@60.001"
+        scale: 1.0
+        transform: "normal"
+        x: 0
+        y: 0
+      - name: "HDMI-A-1"
+        mode: "2560x1600@130.000"
+        scale: 1.2
+        x: 1920
+        y: 0
+```
+
+Use `niri msg outputs` on each machine to discover the correct output names and modes.
 
 ## Dockerfile
 

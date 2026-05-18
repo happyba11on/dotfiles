@@ -11,6 +11,8 @@ data:
   osid: "{{ default (default .chezmoi.os .chezmoi.osRelease.id) (index . "osid") }}"
   proxy_ip: "{{ default "127.0.0.1" (index . "proxy_ip") }}"
   email: "{{ default "withatenth@gmail.com" (index . "email") }}"
+  niri:
+    outputs: []
   languages:
     c: {{ default false (index $languages "c") }}
     cpp: {{ default false (index $languages "cpp") }}
