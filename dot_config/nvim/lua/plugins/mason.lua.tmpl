@@ -80,10 +80,6 @@ return {
                     "goimports",
                     "gofumpt",
 {{- end }}
-{{- if default false (index $languages "rust") }}
-                    -- Formatter for Rust
-                    "rustfmt",
-{{- end }}
                 },
                 -- 自动更新工具
                 auto_update = false,
