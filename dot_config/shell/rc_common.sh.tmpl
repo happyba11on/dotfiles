@@ -5,12 +5,6 @@ alias icat='kitty +kitten icat'
 
 export EDITOR="nvim"
 
-case $- in
-    *i*)
-        fastfetch
-        (chezmoi update --no-tty &) > /dev/null 2>&1
-        ;;
-esac
 
 {{- $nvmDir := joinPath .chezmoi.homeDir ".nvm" -}}
 {{- if (stat $nvmDir) }}

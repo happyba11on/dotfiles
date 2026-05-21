@@ -268,7 +268,7 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "fcitx5"
-spawn-at-startup "waybar"
+// spawn-at-startup "waybar"
 // spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "mako"
 spawn-at-startup "wpaperd" "-d"
@@ -342,14 +342,12 @@ window-rule {
     open-maximized true
 }
 window-rule {
-    match app-id="steam_app_.*"
-    open-floating true
+    match app-id=r#"^steam_app_.*"#
     open-fullscreen true
 }
 
 window-rule {
     match app-id="gamescope"
-    open-floating true
     open-fullscreen true
 }
 
@@ -389,6 +387,8 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
+    Mod+Shift+B { spawn "~/.local/bin/toggle-waybar"; }
+
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
