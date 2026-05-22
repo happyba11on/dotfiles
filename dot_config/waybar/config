@@ -44,7 +44,7 @@
 
     "memory": {
         "interval": 5,
-        "format": "󰍛  {}%"
+        "format": "  {}%"
     },
 
     "pulseaudio": {
