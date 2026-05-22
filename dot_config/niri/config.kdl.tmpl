@@ -275,12 +275,9 @@ spawn-at-startup "systemctl" "--user" "start" "waybar.service"
 spawn-at-startup "mako"
 spawn-at-startup "wpaperd" "-d"
 
-environment {
-    DISPLAY ":1"
-}
 
 // Enable XWayland support for X11 applications (Steam, TeamSpeak, etc.)
-spawn-at-startup "xwayland-satellite"
+// spawn-at-startup "xwayland-satellite"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
