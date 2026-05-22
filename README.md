@@ -8,6 +8,7 @@ data:
   osid: "debian"
   proxy_ip: "127.0.0.1"
   email: "withatenth@gmail.com"
+  kitty_font_size: 14.0
   niri:
     outputs: []
   languages:

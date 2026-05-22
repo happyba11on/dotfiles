@@ -5,14 +5,6 @@ alias icat='kitty +kitten icat'
 
 export EDITOR="nvim"
 
-
-{{- $nvmDir := joinPath .chezmoi.homeDir ".nvm" -}}
-{{- if (stat $nvmDir) }}
-export NVM_DIR="{{ $nvmDir }}"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-{{- end }}
-
 export PROXY_IP="{{ or (index . "proxy_ip") "127.0.0.1" }}"
 
 {{- $goBin := joinPath .chezmoi.homeDir "go/bin" -}}

@@ -11,6 +11,7 @@ data:
   osid: "{{ default (default .chezmoi.os .chezmoi.osRelease.id) (index . "osid") }}"
   proxy_ip: "{{ default "127.0.0.1" (index . "proxy_ip") }}"
   email: "{{ default "withatenth@gmail.com" (index . "email") }}"
+  kitty_font_size: {{ default 14.0 (index . "kitty_font_size") }}
   niri:
     outputs: []
   languages:
