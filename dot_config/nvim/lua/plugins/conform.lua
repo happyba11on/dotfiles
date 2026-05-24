@@ -1,5 +1,5 @@
 return {
-  'stevearc/conform.nvim',
+  "stevearc/conform.nvim",
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
@@ -18,6 +18,10 @@ return {
     {
       "<leader>f",
       function()
+        if vim.snippet and vim.snippet.active() then
+          vim.snippet.stop()
+        end
+
         require("conform").format({ lsp_format = "fallback" })
       end,
       mode = { "n", "v" },
