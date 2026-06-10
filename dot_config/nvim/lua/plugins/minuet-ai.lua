@@ -1,18 +1,19 @@
 return {
 	"milanglacier/minuet-ai.nvim",
 	dependencies = { "nvim-lua/plenary.nvim" },
+	cmd = "Minuet",
 	config = function()
 		require("minuet").setup({
 			provider = "openai_fim_compatible",
 
 			virtualtext = {
-				auto_trigger_ft = { "c", "cpp", "lua", "python", "go", "rust" },
+				auto_trigger_ft = {},
 				keymap = {
 					accept = "<C-y>",
 					accept_line = "<C-l>",
 					dismiss = "<C-e>",
-                    next = "<C-n>",
-                    prev = "<C-p>"
+					next = "<C-n>",
+					prev = "<C-p>",
 				},
 			},
 
