@@ -45,7 +45,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 vim.keymap.set('n', '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', { desc = 'Buffer diagnostics' })
 vim.keymap.set('n', '<leader>sD', '<cmd>Telescope diagnostics<cr>', { desc = 'Workspace diagnostics' })
 vim.keymap.set('n', '<leader>ss', '<cmd>Telescope lsp_document_symbols<cr>', { desc = 'Document symbols' })
-vim.keymap.set('n', '<leader>sS', '<cmd>Telescope lsp_workspace_symbols<cr>', { desc = 'Workspace symbols' })
+vim.keymap.set('n', '<leader>sS', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>', { desc = 'Workspace symbols' })
 vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<cr>', { desc = 'Git status' })
 vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = 'Git commits' })
 
