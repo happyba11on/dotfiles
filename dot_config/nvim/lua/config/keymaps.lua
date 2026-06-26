@@ -32,6 +32,12 @@ local function project_root()
         or vim.loop.cwd()
 end
 
+local function todo_telescope(opts)
+    local telescope = require('telescope')
+    pcall(telescope.load_extension, 'todo-comments')
+    telescope.extensions['todo-comments'].todo(opts)
+end
+
 vim.keymap.set('n', '<leader>ff', function()
     builtin.find_files({ cwd = project_root() })
 end, { desc = 'Telescope find files' })
@@ -46,6 +52,25 @@ vim.keymap.set('n', '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', { de
 vim.keymap.set('n', '<leader>sD', '<cmd>Telescope diagnostics<cr>', { desc = 'Workspace diagnostics' })
 vim.keymap.set('n', '<leader>ss', '<cmd>Telescope lsp_document_symbols<cr>', { desc = 'Document symbols' })
 vim.keymap.set('n', '<leader>sS', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>', { desc = 'Workspace symbols' })
+vim.keymap.set('n', '<leader>st', function()
+    local filename = vim.api.nvim_buf_get_name(0)
+    if filename == '' then
+        vim.notify('Current buffer has no file', vim.log.levels.WARN)
+        return
+    end
+
+    todo_telescope({
+        cwd = vim.fs.dirname(filename),
+        search_dirs = { filename },
+        prompt_title = 'Find Todo in File',
+    })
+end, { desc = 'Todo comments in current file' })
+vim.keymap.set('n', '<leader>sT', function()
+    todo_telescope({
+        cwd = project_root(),
+        prompt_title = 'Find Todo in Project',
+    })
+end, { desc = 'Todo comments in project' })
 vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<cr>', { desc = 'Git status' })
 vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = 'Git commits' })
 
