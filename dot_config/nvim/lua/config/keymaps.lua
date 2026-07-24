@@ -46,6 +46,7 @@ vim.keymap.set('n', '<leader>fg', function()
     builtin.live_grep({ cwd = project_root() })
 end, { desc = 'Telescope live grep' })
 
+vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = 'Fuzzy search current buffer' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', { desc = 'Buffer diagnostics' })
