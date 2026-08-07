@@ -14,21 +14,25 @@ local function project_root()
     local bufname = vim.api.nvim_buf_get_name(0)
     local path = bufname ~= '' and bufname or vim.loop.cwd()
 
+    local git_root = root_from_markers(path, { '.git' })
+    if git_root then
+        return git_root
+    end
+
     for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
         if client.config.root_dir and path:find(client.config.root_dir, 1, true) == 1 then
             return client.config.root_dir
         end
     end
 
-    return root_from_markers(path, { '.git' })
-        or root_from_markers(path, {
-            'Cargo.toml',
-            'go.mod',
-            'go.work',
-            'pyproject.toml',
-            'setup.py',
-            'package.json',
-        })
+    return root_from_markers(path, {
+        'Cargo.toml',
+        'go.mod',
+        'go.work',
+        'pyproject.toml',
+        'setup.py',
+        'package.json',
+    })
         or vim.loop.cwd()
 end
 
