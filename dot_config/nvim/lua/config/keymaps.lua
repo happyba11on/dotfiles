@@ -95,3 +95,7 @@ end)
 -- vim.keymap.set('n','<leader>o','<C-o>')
 -- vim.keymap.set('n','<leader>d','<C-d>')
 -- vim.keymap.set('n','<leader>i','<C-i>')
+
+
+vim.keymap.set("n", "<leader>or", "<cmd>OverseerRun<CR>", { desc = "Run task" })
+vim.keymap.set("n", "<leader>ot", "<cmd>OverseerToggle<CR>", { desc = "Toggle tasks" })
