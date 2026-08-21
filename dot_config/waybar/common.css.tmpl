@@ -31,15 +31,21 @@ window#waybar {
     box-shadow: 0 3px 14px alpha(@crust, 0.42);
 }
 
-tooltip {
-    background: @mantle;
-    color: @text;
+/* GTK paints the tooltip window with the .background style class, and it does
+   not inherit colour down to the label - so the ambient theme's own tooltip
+   text colour (white, in Adwaita) wins unless both are named explicitly here.
+   Setting only `tooltip { color }` leaves white text on our own background. */
+tooltip,
+tooltip.background {
+    background-color: @mantle;
     border: 1px solid alpha(@surface1, 0.9);
     border-radius: 10px;
 }
 
-tooltip label {
-    padding: 3px;
+tooltip label,
+tooltip.background label {
+    color: @text;
+    padding: 4px 2px;
 }
 
 /* one flat surface: no module carries its own pill or border */
