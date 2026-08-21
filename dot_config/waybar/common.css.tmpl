@@ -35,9 +35,14 @@ window#waybar {
    not inherit colour down to the label - so the ambient theme's own tooltip
    text colour (white, in Adwaita) wins unless both are named explicitly here.
    Setting only `tooltip { color }` leaves white text on our own background. */
+/* The 0.98 alpha is load-bearing, not decoration. At a fully opaque colour
+   GTK marks the whole tooltip surface as an opaque region, the compositor
+   skips blending it, and the uninitialised buffer outside our border-radius
+   is drawn as-is - four pure black corners. Any alpha below 1 keeps the
+   surface on the blended path and the corners composite correctly. */
 tooltip,
 tooltip.background {
-    background-color: @mantle;
+    background-color: alpha(@mantle, 0.98);
     border: 1px solid alpha(@surface1, 0.9);
     border-radius: 10px;
 }
