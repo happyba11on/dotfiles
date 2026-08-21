@@ -1,0 +1,154 @@
+{{- /* Bar metrics resolve per host from .chezmoidata.toml: a [waybar.hosts.<name>]
+       entry wins key-by-key, [waybar.default] fills the rest. */ -}}
+{{- $host := default (dict) (index .waybar.hosts .chezmoi.hostname) -}}
+{{- $m := merge (dict) $host .waybar.default -}}
+{
+    "layer": "top",
+    "position": "top",
+    "spacing": 0,
+    "margin-top": {{ $m.margin }},
+    "margin-left": {{ $m.sideMargin }},
+    "margin-right": {{ $m.sideMargin }},
+    "modules-left": [
+        "niri/workspaces",
+        "idle_inhibitor"
+    ],
+    "modules-center": [
+        "niri/window"
+    ],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "pulseaudio",
+        "network",
+        "battery",
+        "clock",
+        "tray"
+    ],
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "●",
+            "default": "●"
+        }
+    },
+    "niri/window": {
+        "max-length": {{ $m.title }},
+        "separate-outputs": true
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰾪"
+        },
+        "tooltip-format-activated": "Idle inhibitor enabled",
+        "tooltip-format-deactivated": "Idle inhibitor disabled"
+    },
+    "cpu": {
+        "interval": 3,
+        "format": "  {usage}",
+        "states": {
+            "idle": 0,
+            "light": 25,
+            "med": 50,
+            "high": 75,
+            "peak": 90
+        }
+    },
+    "memory": {
+        "interval": 3,
+        "format": "  {}",
+        "states": {
+            "idle": 0,
+            "light": 25,
+            "med": 50,
+            "high": 75,
+            "peak": 90
+        }
+    },
+    "pulseaudio": {
+        "format": "{icon}  {volume}",
+        "format-bluetooth": "󰂯  {volume}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰦧",
+            "car": "󰄋",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol",
+        "states": {
+            "q1": 1,
+            "q2": 34,
+            "q3": 67,
+            "q4": 90
+        }
+    },
+    "network": {
+        "interval": 5,
+        "format-wifi": "  {essid}",
+        "format-ethernet": "󰈀  {ifname}",
+        "format-linked": "󰌘 no ip",
+        "format-disconnected": "󰖪",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+    "battery": {
+        "states": {
+            "critical": 15,
+            "warning": 30,
+            "half": 50,
+            "high": 75,
+            "full": 90
+        },
+        "format": "{icon}  {capacity}",
+        "format-charging": "󰂄  {capacity}",
+        "format-plugged": "󰚥  {capacity}",
+        "format-alt": "{icon} {time}",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    "clock": {
+        "interval": 1,
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#cba6f7'><b>{}</b></span>",
+                "days": "<span color='#cdd6f4'>{}</span>",
+                "weeks": "<span color='#89dceb'><b>W{}</b></span>",
+                "weekdays": "<span color='#b4befe'><b>{}</b></span>",
+                "today": "<span color='#fab387'><b>{}</b></span>"
+            }
+        }
+    },
+    "tray": {
+        "icon-size": {{ $m.tray }},
+        "spacing": 9
+    }
+}

@@ -1,0 +1,190 @@
+{{- /* Bar metrics resolve per host from .chezmoidata.toml: a [waybar.hosts.<name>]
+       entry wins key-by-key, [waybar.default] fills the rest. */ -}}
+{{- $host := default (dict) (index .waybar.hosts .chezmoi.hostname) -}}
+{{- $m := merge (dict) $host .waybar.default -}}
+/* ── Instrument panel ────────────────────────────────────────────────
+   Monochrome at rest so colour can mean something. Every percentage
+   in the bar is drawn the same way: a glyph, a number, and a gauge
+   ruled underneath it. Colour appears only when a reading leaves its
+   normal range, or to mark the workspace you are on.
+   Palette tokens come from themes/{latte,mocha}.css.
+   ──────────────────────────────────────────────────────────────── */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font";
+    font-size: {{ $m.font }}px;
+    min-height: 0;
+    /* kill the default GTK focus fuzz on the workspace buttons */
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* ── ground ──────────────────────────────────────────────────────── */
+
+window#waybar {
+    background: alpha(@base, 0.93);
+    color: @subtext0;
+    border: 1px solid alpha(@surface1, 0.85);
+    border-radius: {{ $m.radius }}px;
+    box-shadow: 0 3px 14px alpha(@crust, 0.42);
+}
+
+tooltip {
+    background: @mantle;
+    color: @text;
+    border: 1px solid alpha(@surface1, 0.9);
+    border-radius: 10px;
+}
+
+tooltip label {
+    padding: 3px;
+}
+
+/* one flat surface: no module carries its own pill or border */
+#workspaces,
+#idle_inhibitor,
+#window,
+#cpu,
+#memory,
+#pulseaudio,
+#network,
+#battery,
+#clock,
+#tray {
+    background: transparent;
+    padding: 0 {{ $m.pad }}px;
+    min-height: {{ $m.height }}px;
+    color: @overlay1;
+}
+
+/* ── cluster rules ───────────────────────────────────────────────── */
+/* hairlines group the right side into: metrics | status | time | tray */
+
+#pulseaudio,
+#clock,
+#tray {
+    border-left: 1px solid alpha(@surface1, 0.75);
+}
+
+#workspaces { padding: 0 8px 0 13px; }
+#tray       { padding: 0 12px 0 12px; }
+
+/* ── left: where you are ─────────────────────────────────────────── */
+
+#workspaces button {
+    padding: 0 4px;
+    margin: 0;
+    background: transparent;
+    color: @surface2;
+    transition: color 180ms ease;
+}
+
+#workspaces button.active  { color: @blue; }
+#workspaces button:hover   { color: @subtext0; }
+#workspaces button.urgent  { color: @red; }
+
+#idle_inhibitor           { color: @surface2; padding: 0 9px; }
+#idle_inhibitor.activated { color: @blue; }
+
+/* ── centre: context, deliberately recessive ─────────────────────── */
+
+#window       { color: @overlay0; }
+#window.empty { color: transparent; }
+
+/* ── the gauge ───────────────────────────────────────────────────── */
+/* two stacked backgrounds: [fill, track]. State classes move only the
+   fill's width, so every readout shares one visual grammar.          */
+
+#cpu,
+#memory,
+#pulseaudio,
+#battery {
+    background-image: linear-gradient(@surface2, @surface2),
+                      linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+    background-repeat: no-repeat, no-repeat;
+    background-position: left calc(100% - 5px), left calc(100% - 5px);
+    background-size: 0 {{ $m.gauge }}px, 100% {{ $m.gauge }}px;
+    transition: background-size 260ms cubic-bezier(0.16, 1, 0.3, 1),
+                color 260ms ease;
+}
+
+#cpu.idle,    #memory.idle    { background-size:   8% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#cpu.light,   #memory.light   { background-size:  28% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#cpu.med,     #memory.med     { background-size:  52% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#cpu.high,    #memory.high    { background-size:  76% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#cpu.peak,    #memory.peak    { background-size: 100% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+
+#pulseaudio.q1 { background-size:  14% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#pulseaudio.q2 { background-size:  45% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#pulseaudio.q3 { background-size:  75% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#pulseaudio.q4 { background-size: 100% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+
+#battery.critical { background-size:  12% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#battery.warning  { background-size:  28% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#battery.half     { background-size:  50% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#battery.high     { background-size:  74% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+#battery.full     { background-size: 100% {{ $m.gauge }}px, 100% {{ $m.gauge }}px; }
+
+/* ── annunciator: the only colour that is not the active workspace ── */
+
+#cpu.peak,
+#memory.peak {
+    color: @peach;
+    background-image: linear-gradient(@peach, @peach),
+                      linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+}
+
+#battery.warning {
+    color: @yellow;
+    background-image: linear-gradient(@yellow, @yellow),
+                      linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+}
+
+#battery.critical {
+    color: @red;
+    background-image: linear-gradient(@red, @red),
+                      linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @green;
+    background-image: linear-gradient(@green, @green),
+                      linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+}
+
+#pulseaudio.muted {
+    color: @overlay0;
+    background-image: linear-gradient(alpha(@surface1, 0.85), alpha(@surface1, 0.85));
+    background-size: 100% {{ $m.gauge }}px;
+}
+
+#network.disconnected,
+#network.disabled {
+    color: @yellow;
+}
+
+/* ── right anchor: the clock is the one bare readout ─────────────── */
+
+#clock {
+    color: @text;
+    font-size: {{ $m.clockFont }}px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    padding: 0 {{ $m.clockPad }}px;
+}
+
+/* ── restraint: one hover treatment, nothing else ────────────────── */
+
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover,
+#network:hover,
+#battery:hover,
+#clock:hover,
+#window:hover,
+#idle_inhibitor:hover {
+    color: @text;
+}

@@ -1,0 +1,36 @@
+# Waybar bar metrics, in logical pixels.
+#
+# Logical px are multiplied by the output scale by the compositor, so these
+# values already track DPI: 12px is 2.4mm on a 1.25-scaled laptop panel and
+# 2.8mm on a 27" 2560x1440 at scale 1.0. They do NOT need bumping just
+# because a screen has more pixels. Tune these for bar proportion and taste.
+#
+# [waybar.default] applies to any host without an entry below; a host entry
+# overrides only the keys it names.
+
+[waybar.default]
+font       = 12   # base readout size
+clockFont  = 13   # the anchor, one step up
+height     = 28   # module min-height -> bar height
+pad        = 11   # horizontal padding inside each module
+clockPad   = 13
+radius     = 13   # outer corner
+margin     = 6    # gap above the bar
+sideMargin = 10   # gap at each end
+gauge      = 2    # thickness of the rule under each percentage
+tray       = 15   # tray icon size
+title      = 48   # window title max chars
+
+[waybar.hosts]
+# Add the 2K box here once you know what niri picks for it. Run:
+#     niri msg outputs | grep -E 'Logical size|Scale'
+# If the logical height is ~1440, the bar is proportionally thinner than on
+# the laptop; this profile restores the same visual weight:
+#
+# [waybar.hosts.<hostname>]
+# font      = 13
+# clockFont = 14
+# height    = 32
+# pad       = 12
+# tray      = 16
+# title     = 72
