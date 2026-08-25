@@ -16,3 +16,5 @@ vim.opt.termguicolors = true
 
 -- 剪贴板配置
 vim.opt.clipboard = "unnamedplus" -- 使用系统剪贴板
+
+vim.opt.updatetime = 300

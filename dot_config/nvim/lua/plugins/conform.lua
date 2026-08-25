@@ -16,7 +16,7 @@ return {
   },
   keys = {
     {
-      "<leader>f",
+      "<leader>v",
       function()
         if vim.snippet and vim.snippet.active() then
           vim.snippet.stop()
