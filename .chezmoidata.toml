@@ -22,15 +22,21 @@ tray       = 15   # tray icon size
 title      = 48   # window title max chars
 
 [waybar.hosts]
-# Add the 2K box here once you know what niri picks for it. Run:
-#     niri msg outputs | grep -E 'Logical size|Scale'
-# If the logical height is ~1440, the bar is proportionally thinner than on
-# the laptop; this profile restores the same visual weight:
-#
-# [waybar.hosts.<hostname>]
-# font      = 13
-# clockFont = 14
-# height    = 32
-# pad       = 12
-# tray      = 16
-# title     = 72
+
+# Desktop: HDMI-A-1 is 2560x1600 at scale 1.0, so the logical canvas is
+# 1600px tall against the laptop's 1080. The defaults are not too small in
+# absolute terms - they are proportionally thin, taking 1.8% of screen
+# height here versus 2.6% on the laptop. A strict proportional match would
+# want height 41, which reads as a slab; these values close most of the gap
+# and keep the bar's proportions. The extra width also buys a longer title.
+[waybar.hosts.PCofhpbl]
+font       = 13
+clockFont  = 14
+height     = 34
+pad        = 12
+clockPad   = 14
+radius     = 14
+margin     = 7
+sideMargin = 12
+tray       = 17
+title      = 72
