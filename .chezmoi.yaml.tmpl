@@ -13,7 +13,7 @@ data:
   email: "{{ default "withatenth@gmail.com" (index . "email") }}"
   kitty_font_size: {{ default 14.0 (index . "kitty_font_size") }}
   niri:
-    outputs: []
+    outputs: {{ default (list) (index (default (dict) (index . "niri")) "outputs") | toJson }}
   languages:
     c: {{ default false (index $languages "c") }}
     cpp: {{ default false (index $languages "cpp") }}
